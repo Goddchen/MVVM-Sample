@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="chapter"
+            type="de.goddchen.android.mvvmsample.model.Chapter" />
+
+        <variable
+            name="clickListener"
+            type="de.goddchen.android.mvvmsample.view.chapters.OnClickListener" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:onClick="@{() -> clickListener.onChapterClicked(chapter)}"
+        android:text="@{chapter.name, default=Name}"
+        android:textAppearance="?android:textAppearanceMedium" />
+</layout>

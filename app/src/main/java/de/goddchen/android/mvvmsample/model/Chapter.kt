@@ -3,6 +3,7 @@ package de.goddchen.android.mvvmsample.model
 import com.google.gson.annotations.SerializedName
 
 import org.threeten.bp.LocalDateTime
+import java.io.Serializable
 
 data class Chapter(
         @SerializedName("_id")
@@ -33,4 +34,4 @@ data class Chapter(
         var organizerIds: List<String>? = null,
 
         var geo: Geo? = null
-)
+) : Serializable
