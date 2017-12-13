@@ -17,12 +17,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemBinding="@{model.itemBinding}"
-            app:items="@{model.chapters}"
-            app:layoutManager="@{LayoutManagers.linear()}" />
+            android:orientation="vertical"
+            android:visibility="@{model.isLoading ? View.GONE : View.VISIBLE}">
+
+            <EditText
+                android:id="@+id/filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/filter_by_name"
+                android:inputType="text"
+                android:text="@={model.filter}" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemBinding="@{model.itemBinding}"
+                app:items="@{model.filteredChapters}"
+                app:layoutManager="@{LayoutManagers.linear()}" />
+        </LinearLayout>
 
         <ProgressBar
             style="?indeterminateProgressStyle"

@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import de.goddchen.android.mvvmsample.R
+import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataServiceMock
 import de.goddchen.android.mvvmsample.databinding.ActivityChaptersBinding
 import de.goddchen.android.mvvmsample.view.chapter.ChapterActivity
 
@@ -18,7 +19,7 @@ class ChaptersActivity : AppCompatActivity() {
                 DataBindingUtil.setContentView(this, R.layout.activity_chapters)
         with(ViewModelProviders.of(this).get(ChaptersViewModel::class.java)) {
             binding.model = this
-            loadChapters()
+            loadChapters(ChaptersDataServiceMock())
             clickedChapter.observe(this@ChaptersActivity, Observer {
                 startActivity(Intent(this@ChaptersActivity, ChapterActivity::class.java)
                         .putExtra(ChapterActivity.EXTRA_CHAPTER, it))
