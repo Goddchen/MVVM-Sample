@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.view.chapter.ChapterViewModel" />
+            type="de.goddchen.android.mvvmsample.view.chapter.ChapterDataBindingModel" />
     </data>
 
     <LinearLayout
@@ -25,6 +25,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text='@{model.organizerCountText, default="Organizer Count: 3"}'
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@{model.addressText, default="Konstanz, Germany"}'
             android:textAppearance="?android:textAppearanceMedium" />
     </LinearLayout>
 </layout>

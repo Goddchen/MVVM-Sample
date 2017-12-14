@@ -1,5 +1,6 @@
 package de.goddchen.android.mvvmsample.view.chapter
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -18,9 +19,17 @@ class ChapterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityChapterBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_chapter)
+        val extraChapter = intent.getSerializableExtra(EXTRA_CHAPTER) as Chapter
+        val dataBinding = ChapterDataBindingModel()
+        binding.model = dataBinding
         with(ViewModelProviders.of(this).get(ChapterViewModel::class.java)) {
-            chapter = intent.getSerializableExtra(EXTRA_CHAPTER) as Chapter
-            binding.model = this
+            //Map ViewModel LiveData to DataBinding Observables
+            dataBinding.chapter = chapter
+            addressText.observe(this@ChapterActivity,
+                    Observer { dataBinding.addressText.set(it) })
+            organizerCountText.observe(this@ChapterActivity,
+                    Observer { dataBinding.organizerCountText.set(it) })
+            this.chapter = extraChapter
         }
     }
 }
