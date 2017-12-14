@@ -24,12 +24,12 @@ class ChapterActivity : AppCompatActivity() {
         binding.model = dataBinding
         with(ViewModelProviders.of(this).get(ChapterViewModel::class.java)) {
             //Map ViewModel LiveData to DataBinding Observables
-            dataBinding.chapter = chapter
             addressText.observe(this@ChapterActivity,
                     Observer { dataBinding.addressText.set(it) })
             organizerCountText.observe(this@ChapterActivity,
                     Observer { dataBinding.organizerCountText.set(it) })
-            this.chapter = extraChapter
+            chapter = extraChapter
+            dataBinding.chapter = extraChapter
         }
     }
 }

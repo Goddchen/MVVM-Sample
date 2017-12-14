@@ -30,6 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> model.addressClicked(context)}"
             android:text='@{model.addressText, default="Konstanz, Germany"}'
             android:textAppearance="?android:textAppearanceMedium" />
     </LinearLayout>
