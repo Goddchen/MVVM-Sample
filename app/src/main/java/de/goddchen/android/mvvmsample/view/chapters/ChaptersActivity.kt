@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import de.goddchen.android.mvvmsample.BR
 import de.goddchen.android.mvvmsample.R
-import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataServiceMock
+import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataServiceApi
 import de.goddchen.android.mvvmsample.databinding.ActivityChaptersBinding
 import de.goddchen.android.mvvmsample.model.Chapter
 import de.goddchen.android.mvvmsample.view.chapter.ChapterActivity
@@ -32,7 +32,7 @@ class ChaptersActivity : AppCompatActivity() {
         })
         binding.model = bindingModel
         with(ViewModelProviders.of(this).get(ChaptersViewModel::class.java)) {
-            loadChapters(ChaptersDataServiceMock())
+            loadChapters(ChaptersDataServiceApi())
             //Map LiveData to DataBinding Observables
             filteredChapters.observe(this@ChaptersActivity, Observer {
                 bindingModel.chapters.clear()

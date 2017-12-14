@@ -26,12 +26,12 @@ class ChaptersViewModel : ViewModel() {
 
     fun loadChapters(dataService: ChaptersDataService) {
         if (chapters.isEmpty()) {
-            isLoading.value = true
+            isLoading.postValue(true)
             dataService.getChapters()
                     .flatMapObservable { Observable.fromIterable(it) }
                     .toSortedList(ComparatorCompat.comparing(Function<Chapter, String> { it.name }))
                     .doFinally {
-                        isLoading.value = false
+                        isLoading.postValue(false)
                     }
                     .subscribe({
                         chapters += it
@@ -41,9 +41,9 @@ class ChaptersViewModel : ViewModel() {
     }
 
     private fun applyFilter() {
-        filteredChapters.value = Stream.of(chapters)
+        filteredChapters.postValue(Stream.of(chapters)
                 .filter { it.name?.contains(filter as? CharSequence ?: "", true) ?: false }
-                .toList()
+                .toList())
     }
 
 }
