@@ -23,6 +23,9 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.8.0'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation 'android.arch.core:core-testing:1.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:support-v4:27.0.2'
@@ -40,9 +43,9 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0'
     implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.2.0'
-    kapt 'com.android.databinding:compiler:3.0.1'
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
     implementation 'com.annimon:stream:1.1.9'
+    kapt 'com.android.databinding:compiler:3.0.1'
 }
 repositories {
     mavenCentral()

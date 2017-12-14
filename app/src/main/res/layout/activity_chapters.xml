@@ -6,7 +6,8 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.view.chapters.ChaptersViewModel" />
+            type="de.goddchen.android.mvvmsample.view.chapters.ChaptersDataBindingModel" />
+
 
         <import type="android.view.View" />
 
@@ -35,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:itemBinding="@{model.itemBinding}"
-                app:items="@{model.filteredChapters}"
+                app:items="@{model.chapters}"
                 app:layoutManager="@{LayoutManagers.linear()}" />
         </LinearLayout>
 
