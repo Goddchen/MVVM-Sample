@@ -28,8 +28,8 @@ class ChapterActivity : AppCompatActivity() {
                     Observer { dataBinding.addressText.set(it) })
             organizerCountText.observe(this@ChapterActivity,
                     Observer { dataBinding.organizerCountText.set(it) })
-            chapter = extraChapter
             dataBinding.chapter = extraChapter
+            init(extraChapter, ChapterFormatProviderAndroid(this@ChapterActivity.baseContext))
         }
     }
 }

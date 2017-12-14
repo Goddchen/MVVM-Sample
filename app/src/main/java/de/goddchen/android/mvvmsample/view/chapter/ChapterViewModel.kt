@@ -7,16 +7,15 @@ import java.util.*
 
 class ChapterViewModel : ViewModel() {
 
-    var chapter: Chapter? = null
-        set(value) {
-            field = value
-            organizerCountText.postValue(String.format(Locale.getDefault(),
-                    "Organizer Count: %d", chapter?.organizerIds?.size))
-            addressText.postValue(String.format("%s, %s", chapter?.city, chapter?.country?.name))
-        }
-
     val organizerCountText: MutableLiveData<String> = MutableLiveData()
 
     val addressText: MutableLiveData<String> = MutableLiveData()
+
+    fun init(chapter: Chapter, chapterFormatProvider: ChapterFormatProvider) {
+        organizerCountText.postValue(String.format(Locale.getDefault(),
+                chapterFormatProvider.formatOrganizerCount, chapter.organizerIds?.size))
+        addressText.postValue(String.format(Locale.getDefault(),
+                chapterFormatProvider.formatAddress, chapter.city, chapter.country?.name))
+    }
 
 }
