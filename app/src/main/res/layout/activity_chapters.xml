@@ -12,6 +12,8 @@
         <import type="android.view.View" />
 
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+        <import type="de.goddchen.android.mvvmsample.ui.ItemDecorations" />
     </data>
 
     <FrameLayout
@@ -35,7 +37,11 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 app:itemBinding="@{model.itemBinding}"
+                app:itemDecoration="@{ItemDecorations.listDivider(context)}"
                 app:items="@{model.chapters}"
                 app:layoutManager="@{LayoutManagers.linear()}" />
         </LinearLayout>

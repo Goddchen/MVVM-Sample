@@ -4,6 +4,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import com.annimon.stream.Stream
+import com.annimon.stream.function.Function
 import de.goddchen.android.mvvmsample.Application
 import de.goddchen.android.mvvmsample.caching.CacheProvider
 import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataService
@@ -45,6 +46,7 @@ class ChaptersViewModel(application: android.app.Application) : AndroidViewModel
     private fun applyFilter() {
         filteredChapters.postValue(Stream.of(chapters)
                 .filter { it.name?.contains(filter as? CharSequence ?: "", true) ?: false }
+                .sortBy(Function<Chapter, String> { it.name?.trim() })
                 .toList())
     }
 
