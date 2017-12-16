@@ -1,10 +1,10 @@
-package de.goddchen.android.mvvmsample.view.chapter
+package de.goddchen.android.mvvmsample.mvvm.view.chapter
 
 import android.content.Context
 import android.content.Intent
 import android.databinding.ObservableField
 import android.net.Uri
-import de.goddchen.android.mvvmsample.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.model.Chapter
 import java.util.*
 
 class ChapterDataBindingModel {

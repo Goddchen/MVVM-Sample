@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.view.chapter.ChapterDataBindingModel" />
+            type="de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterDataBindingModel" />
     </data>
 
     <LinearLayout

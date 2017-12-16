@@ -5,18 +5,18 @@
 
         <variable
             name="chapter"
-            type="de.goddchen.android.mvvmsample.model.Chapter" />
+            type="de.goddchen.android.mvvmsample.mvvm.model.Chapter" />
 
         <variable
-            name="clickListener"
-            type="de.goddchen.android.mvvmsample.view.chapters.OnClickListener" />
+            name="model"
+            type="de.goddchen.android.mvvmsample.mvvm.viewmodel.ChaptersViewModel" />
     </data>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center"
-        android:onClick="@{() -> clickListener.onChapterClicked(chapter)}"
+        android:onClick="@{() -> model.showChapter(chapter)}"
         android:text="@{chapter.name, default=Name}"
         android:textAppearance="?android:textAppearanceMedium" />
 </layout>

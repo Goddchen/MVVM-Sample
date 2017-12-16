@@ -1,6 +1,6 @@
 package de.goddchen.android.mvvmsample.api
 
-import de.goddchen.android.mvvmsample.model.ChapterResponse
+import de.goddchen.android.mvvmsample.mvvm.model.ChapterResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 

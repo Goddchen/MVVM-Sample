@@ -1,4 +1,4 @@
-package de.goddchen.android.mvvmsample.model
+package de.goddchen.android.mvvmsample.mvvm.model
 
 import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity

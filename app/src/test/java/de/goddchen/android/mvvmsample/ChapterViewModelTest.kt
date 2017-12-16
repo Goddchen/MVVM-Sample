@@ -1,11 +1,11 @@
 package de.goddchen.android.mvvmsample
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import de.goddchen.android.mvvmsample.model.Chapter
-import de.goddchen.android.mvvmsample.model.Country
-import de.goddchen.android.mvvmsample.model.Geo
-import de.goddchen.android.mvvmsample.view.chapter.ChapterFormatProvider
-import de.goddchen.android.mvvmsample.view.chapter.ChapterViewModel
+import de.goddchen.android.mvvmsample.mvvm.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.model.Country
+import de.goddchen.android.mvvmsample.mvvm.model.Geo
+import de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterFormatProvider
+import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChapterViewModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ class ChapterViewModelTest {
     fun formats() {
         val viewModel = ChapterViewModel()
         val chapter = Chapter(
-                null,
+                "",
                 null,
                 null,
                 null,

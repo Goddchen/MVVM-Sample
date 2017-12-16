@@ -1,4 +1,4 @@
-package de.goddchen.android.mvvmsample.view.chapter
+package de.goddchen.android.mvvmsample.mvvm.view.chapter
 
 interface ChapterFormatProvider {
 

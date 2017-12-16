@@ -1,4 +1,4 @@
-package de.goddchen.android.mvvmsample.model
+package de.goddchen.android.mvvmsample.mvvm.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

@@ -1,4 +1,4 @@
-package de.goddchen.android.mvvmsample.view.chapter
+package de.goddchen.android.mvvmsample.mvvm.view.chapter
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import de.goddchen.android.mvvmsample.R
 import de.goddchen.android.mvvmsample.databinding.ActivityChapterBinding
-import de.goddchen.android.mvvmsample.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChapterViewModel
 
 class ChapterActivity : AppCompatActivity() {
 

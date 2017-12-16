@@ -1,8 +1,9 @@
-package de.goddchen.android.mvvmsample.view.chapter
+package de.goddchen.android.mvvmsample.mvvm.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import de.goddchen.android.mvvmsample.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterFormatProvider
 import java.util.*
 
 class ChapterViewModel : ViewModel() {

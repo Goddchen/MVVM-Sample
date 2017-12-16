@@ -1,7 +1,7 @@
 package de.goddchen.android.mvvmsample.data.chapters
 
 import de.goddchen.android.mvvmsample.api.ApiGenerator
-import de.goddchen.android.mvvmsample.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.model.Chapter
 import io.reactivex.Single
 
 class ChaptersDataServiceApi : ChaptersDataService {

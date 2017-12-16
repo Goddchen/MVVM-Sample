@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.view.chapters.ChaptersDataBindingModel" />
+            type="de.goddchen.android.mvvmsample.mvvm.view.chapters.ChaptersDataBindingModel" />
 
 
         <import type="android.view.View" />
