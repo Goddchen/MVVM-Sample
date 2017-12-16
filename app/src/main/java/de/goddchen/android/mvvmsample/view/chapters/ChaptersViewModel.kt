@@ -2,12 +2,11 @@ package de.goddchen.android.mvvmsample.view.chapters
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.annimon.stream.ComparatorCompat
 import com.annimon.stream.Stream
-import com.annimon.stream.function.Function
+import de.goddchen.android.mvvmsample.Application
 import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataService
 import de.goddchen.android.mvvmsample.model.Chapter
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import timber.log.Timber
 
 class ChaptersViewModel : ViewModel() {
@@ -25,19 +24,16 @@ class ChaptersViewModel : ViewModel() {
         }
 
     fun loadChapters(dataService: ChaptersDataService) {
-        if (chapters.isEmpty()) {
-            isLoading.postValue(true)
-            dataService.getChapters()
-                    .flatMapObservable { Observable.fromIterable(it) }
-                    .toSortedList(ComparatorCompat.comparing(Function<Chapter, String> { it.name }))
-                    .doFinally {
-                        isLoading.postValue(false)
-                    }
-                    .subscribe({
-                        chapters += it
-                        applyFilter()
-                    }, Timber::e)
-        }
+        Flowable.merge(
+                dataService.getChapters()
+                        .doOnSuccess { Application.DATABASE?.chapterDao()?.addAll(it) }
+                        .toFlowable(),
+                Application.DATABASE?.chapterDao()?.getAll())
+                .subscribe({
+                    chapters.clear()
+                    chapters.addAll(it)
+                    applyFilter()
+                }, Timber::e)
     }
 
     private fun applyFilter() {

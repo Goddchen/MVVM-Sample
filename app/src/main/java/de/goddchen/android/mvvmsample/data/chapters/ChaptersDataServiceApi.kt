@@ -7,6 +7,7 @@ import io.reactivex.Single
 class ChaptersDataServiceApi : ChaptersDataService {
     override fun getChapters(): Single<List<Chapter>> {
         return ApiGenerator.generateApi().getChapters()
+                //.delay(10, TimeUnit.SECONDS) //for live debugging
                 .map { it.items }
     }
 }

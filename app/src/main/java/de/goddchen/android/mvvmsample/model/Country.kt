@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Country(
-        @SerializedName("_id") val id: String? = null,
-        val name: String? = null
+        @SerializedName("_id")
+        var id: String? = null,
+        var name: String? = null
 ) : Serializable
