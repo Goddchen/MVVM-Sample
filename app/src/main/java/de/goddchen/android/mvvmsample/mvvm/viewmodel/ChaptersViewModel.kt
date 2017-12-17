@@ -1,23 +1,28 @@
 package de.goddchen.android.mvvmsample.mvvm.viewmodel
 
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
-import android.content.Intent
+import android.arch.lifecycle.ViewModel
 import com.annimon.stream.Stream
 import com.annimon.stream.function.Function
-import de.goddchen.android.mvvmsample.Application
 import de.goddchen.android.mvvmsample.caching.CacheProvider
 import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataService
 import de.goddchen.android.mvvmsample.mvvm.model.Chapter
-import de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterActivity
+import de.goddchen.android.mvvmsample.mvvm.view.Navigator
 import io.reactivex.Flowable
 import timber.log.Timber
 
-class ChaptersViewModel(application: android.app.Application) : AndroidViewModel(application) {
+class ChaptersViewModel(private val dataService: ChaptersDataService, private val cacheProvider: CacheProvider, private val navigator: Navigator) : ViewModel() {
 
     private val chapters: MutableList<Chapter> = mutableListOf()
 
-    val filteredChapters: MutableLiveData<List<Chapter>> = MutableLiveData()
+    var filteredChapters: MutableLiveData<List<Chapter>>? = null
+        get() {
+            if (field == null) {
+                field = MutableLiveData()
+                loadChapters()
+            }
+            return field
+        }
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -27,11 +32,11 @@ class ChaptersViewModel(application: android.app.Application) : AndroidViewModel
             applyFilter()
         }
 
-    fun loadChapters(dataService: ChaptersDataService, cacheProvider: CacheProvider) {
+    fun loadChapters() {
         isLoading.postValue(true)
         Flowable.merge(
                 dataService.getChapters()
-                        .doOnSuccess { Application.DATABASE?.chapterDao()?.addAll(it) }
+                        .doOnSuccess(cacheProvider::setChapters)
                         .toFlowable(),
                 cacheProvider.getChapters())
                 .doOnNext { isLoading.postValue(false) }
@@ -44,16 +49,14 @@ class ChaptersViewModel(application: android.app.Application) : AndroidViewModel
     }
 
     private fun applyFilter() {
-        filteredChapters.postValue(Stream.of(chapters)
+        filteredChapters?.postValue(Stream.of(chapters)
                 .filter { it.name?.contains(filter as? CharSequence ?: "", true) ?: false }
                 .sortBy(Function<Chapter, String> { it.name?.trim() })
                 .toList())
     }
 
-    fun showChapter(chapter: Chapter) =
-            getApplication<Application>()
-                    .startActivity(
-                            Intent(getApplication(), ChapterActivity::class.java)
-                                    .putExtra(ChapterActivity.EXTRA_CHAPTER, chapter))
+    fun showChapter(chapter: Chapter) {
+        navigator.showChapter(chapter)
+    }
 
 }

@@ -6,13 +6,12 @@ import de.goddchen.android.mvvmsample.mvvm.model.Chapter
 import de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterFormatProvider
 import java.util.*
 
-class ChapterViewModel : ViewModel() {
+class ChapterViewModel(chapterFormatProvider: ChapterFormatProvider, chapter: Chapter) : ViewModel() {
 
     val organizerCountText: MutableLiveData<String> = MutableLiveData()
-
     val addressText: MutableLiveData<String> = MutableLiveData()
 
-    fun init(chapter: Chapter, chapterFormatProvider: ChapterFormatProvider) {
+    init {
         organizerCountText.postValue(String.format(Locale.getDefault(),
                 chapterFormatProvider.formatOrganizerCount, chapter.organizerIds?.size))
         addressText.postValue(String.format(Locale.getDefault(),

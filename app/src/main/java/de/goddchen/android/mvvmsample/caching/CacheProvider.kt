@@ -7,4 +7,6 @@ interface CacheProvider {
 
     fun getChapters(): Flowable<List<Chapter>>
 
+    fun setChapters(chapters: List<Chapter>)
+
 }

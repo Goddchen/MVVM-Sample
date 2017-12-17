@@ -17,7 +17,12 @@ class ChapterViewModelTest {
 
     @Test
     fun formats() {
-        val viewModel = ChapterViewModel()
+        val chapterFormatter = object : ChapterFormatProvider {
+            override val formatOrganizerCount: String
+                get() = "%d orgas"
+            override val formatAddress: String
+                get() = "%s, %s"
+        }
         val chapter = Chapter(
                 "",
                 null,
@@ -33,13 +38,7 @@ class ChapterViewModelTest {
                 listOf("Organizer1", "Organizer2"),
                 Geo(1.0, 2.0)
         )
-        val chapterFormatter = object : ChapterFormatProvider {
-            override val formatOrganizerCount: String
-                get() = "%d orgas"
-            override val formatAddress: String
-                get() = "%s, %s"
-        }
-        viewModel.init(chapter, chapterFormatter)
+        val viewModel = ChapterViewModel(chapterFormatter, chapter)
         assertThat(viewModel.addressText.value).isEqualTo("City, Country")
         assertThat(viewModel.organizerCountText.value).isEqualTo("2 orgas")
     }

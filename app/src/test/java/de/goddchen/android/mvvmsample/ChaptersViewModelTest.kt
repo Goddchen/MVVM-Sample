@@ -1,10 +1,10 @@
 package de.goddchen.android.mvvmsample
 
-import android.app.Application
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import de.goddchen.android.mvvmsample.caching.CacheProvider
 import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataService
 import de.goddchen.android.mvvmsample.mvvm.model.Chapter
+import de.goddchen.android.mvvmsample.mvvm.view.Navigator
 import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChaptersViewModel
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -17,7 +17,11 @@ import org.mockito.Mockito.mock
 
 class ChaptersViewModelTest {
 
-    private val cacheProvider = mock(CacheProvider::class.java)!!
+    private val cacheProvider = mock(CacheProvider::class.java)
+
+    private val dataService = mock(ChaptersDataService::class.java)
+
+    private val navigator = mock(Navigator::class.java)
 
     @Rule
     fun rule(): InstantTaskExecutorRule = InstantTaskExecutorRule()
@@ -29,37 +33,38 @@ class ChaptersViewModelTest {
 
     @Test
     fun loadError() {
-        val viewModel = ChaptersViewModel(mock(Application::class.java))
-        val dataService: ChaptersDataService = mock(ChaptersDataService::class.java)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
         `when`(dataService.getChapters()).thenReturn(Single.error(Exception()))
-        viewModel.loadChapters(dataService, cacheProvider)
+        //trigger loadChapters()
+        viewModel.filteredChapters?.hasActiveObservers()
         assertThat(viewModel.isLoading.value).isEqualTo(false)
-        assertThat(viewModel.filteredChapters.value).isNull()
+        assertThat(viewModel.filteredChapters?.value).isNull()
     }
 
     @Test
     fun loadSuccess() {
-        val viewModel = ChaptersViewModel(mock(Application::class.java))
-        val dataService: ChaptersDataService = mock(ChaptersDataService::class.java)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
         `when`(dataService.getChapters()).thenReturn(Single.just(listOf(
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Bodensee", null, null, null),
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Zürich", null, null, null)
         )))
-        viewModel.loadChapters(dataService, cacheProvider)
-        assertThat(viewModel.filteredChapters.value).hasSize(2)
+        //trigger loadChapters()
+        viewModel.filteredChapters?.hasActiveObservers()
+        assertThat(viewModel.filteredChapters).isNotNull()
+        assertThat(viewModel.filteredChapters?.value).hasSize(2)
     }
 
     @Test
     fun filter() {
-        val viewModel = ChaptersViewModel(mock(Application::class.java))
-        val dataService: ChaptersDataService = mock(ChaptersDataService::class.java)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
         `when`(dataService.getChapters()).thenReturn(Single.just(listOf(
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Bodensee", null, null, null),
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Zürich", null, null, null)
         )))
-        viewModel.loadChapters(dataService, cacheProvider)
+        //trigger loadChapters()
+        viewModel.filteredChapters?.hasActiveObservers()
         viewModel.filter = "Bod"
-        assertThat(viewModel.filteredChapters.value).hasSize(1)
-        assertThat(viewModel.filteredChapters.value?.get(0)?.name).isEqualTo("GDG Bodensee")
+        assertThat(viewModel.filteredChapters?.value).hasSize(1)
+        assertThat(viewModel.filteredChapters?.value?.get(0)?.name).isEqualTo("GDG Bodensee")
     }
 }
