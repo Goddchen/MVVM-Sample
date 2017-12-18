@@ -4,7 +4,6 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import de.goddchen.android.mvvmsample.caching.CacheProvider
 import de.goddchen.android.mvvmsample.data.chapters.ChaptersDataService
 import de.goddchen.android.mvvmsample.mvvm.model.Chapter
-import de.goddchen.android.mvvmsample.mvvm.view.Navigator
 import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChaptersViewModel
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -21,8 +20,6 @@ class ChaptersViewModelTest {
 
     private val dataService = mock(ChaptersDataService::class.java)
 
-    private val navigator = mock(Navigator::class.java)
-
     @Rule
     fun rule(): InstantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -33,7 +30,7 @@ class ChaptersViewModelTest {
 
     @Test
     fun loadError() {
-        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider)
         `when`(dataService.getChapters()).thenReturn(Single.error(Exception()))
         //trigger loadChapters()
         viewModel.filteredChapters?.hasActiveObservers()
@@ -43,7 +40,7 @@ class ChaptersViewModelTest {
 
     @Test
     fun loadSuccess() {
-        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider)
         `when`(dataService.getChapters()).thenReturn(Single.just(listOf(
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Bodensee", null, null, null),
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Zürich", null, null, null)
@@ -56,7 +53,7 @@ class ChaptersViewModelTest {
 
     @Test
     fun filter() {
-        val viewModel = ChaptersViewModel(dataService, cacheProvider, navigator)
+        val viewModel = ChaptersViewModel(dataService, cacheProvider)
         `when`(dataService.getChapters()).thenReturn(Single.just(listOf(
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Bodensee", null, null, null),
                 Chapter("", null, null, null, null, null, null, null, null, "GDG Zürich", null, null, null)
@@ -66,5 +63,21 @@ class ChaptersViewModelTest {
         viewModel.filter = "Bod"
         assertThat(viewModel.filteredChapters?.value).hasSize(1)
         assertThat(viewModel.filteredChapters?.value?.get(0)?.name).isEqualTo("GDG Bodensee")
+    }
+
+    @Test
+    fun sort() {
+        val viewModel = ChaptersViewModel(dataService, cacheProvider)
+        `when`(dataService.getChapters()).thenReturn(Single.just(listOf(
+                Chapter("", null, null, null, null, null, null, null, null, "GDG b", null, null, null),
+                Chapter("", null, null, null, null, null, null, null, null, "GDG C", null, null, null),
+                Chapter("", null, null, null, null, null, null, null, null, "GDG A", null, null, null)
+        )))
+        //trigger loadChapters()
+        viewModel.filteredChapters?.hasActiveObservers()
+        assertThat(viewModel.filteredChapters?.value).hasSize(3)
+        assertThat(viewModel.filteredChapters?.value?.get(0)?.name).isEqualTo("GDG A")
+        assertThat(viewModel.filteredChapters?.value?.get(1)?.name).isEqualTo("GDG b")
+        assertThat(viewModel.filteredChapters?.value?.get(2)?.name).isEqualTo("GDG C")
     }
 }
