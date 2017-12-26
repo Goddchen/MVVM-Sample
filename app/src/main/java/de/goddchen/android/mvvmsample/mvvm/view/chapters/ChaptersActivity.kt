@@ -34,6 +34,5 @@ class ChaptersActivity : AppCompatActivity() {
             startActivity(Intent(baseContext, ChapterActivity::class.java)
                     .putExtra(ChapterActivity.EXTRA_CHAPTER, it))
         })
-
     }
 }

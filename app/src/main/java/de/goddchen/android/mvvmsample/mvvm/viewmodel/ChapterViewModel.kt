@@ -1,5 +1,6 @@
 package de.goddchen.android.mvvmsample.mvvm.viewmodel
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import de.goddchen.android.mvvmsample.mvvm.model.Chapter
@@ -12,10 +13,11 @@ class ChapterViewModel(chapterFormatProvider: ChapterFormatProvider, val chapter
             chapterFormatProvider.formatOrganizerCount, chapter.organizerIds?.size)
     val addressText = String.format(Locale.getDefault(),
             chapterFormatProvider.formatAddress, chapter.city, chapter.country?.name)
-    val addressClick = MutableLiveData<Chapter>()
+    private val _addressClick = MutableLiveData<Chapter>()
+    val addressClick: LiveData<Chapter> get() = _addressClick
 
     fun addressClicked() {
-        addressClick.postValue(chapter)
+        _addressClick.postValue(chapter)
     }
 
 }

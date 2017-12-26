@@ -1,6 +1,7 @@
 package de.goddchen.android.mvvmsample.mvvm.viewmodel
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
@@ -17,25 +18,28 @@ import timber.log.Timber
 
 class ChaptersViewModel(private val dataService: ChaptersDataService, private val cacheProvider: CacheProvider) : ViewModel() {
 
-    private val chapters: MutableList<Chapter> = mutableListOf()
+    private val _chapters: MutableList<Chapter> = mutableListOf()
 
-    val chapterClick = MutableLiveData<Chapter>()
+    private val _chapterClick = MutableLiveData<Chapter>()
+    val chapterClick: LiveData<Chapter> get() = _chapterClick
 
     val itemBinding = OnItemBind<Chapter> { itemBinding, _, _ ->
         itemBinding.set(BR.chapter, R.layout.item_chapter)
         itemBinding.bindExtra(BR.model, this)
     }
 
-    var filteredChapters: MutableLiveData<List<Chapter>>? = null
+    private var _filteredChapters: MutableLiveData<List<Chapter>>? = null
+    val filteredChapters: LiveData<List<Chapter>>
         get() {
-            if (field == null) {
-                field = MutableLiveData()
+            if (_filteredChapters == null) {
+                _filteredChapters = MutableLiveData()
                 loadChapters()
             }
-            return field
+            return _filteredChapters ?: MutableLiveData()
         }
 
-    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     val filter = MutableLiveData<String>()
     private val filterObserver = Observer<String> { applyFilter() }
@@ -51,30 +55,30 @@ class ChaptersViewModel(private val dataService: ChaptersDataService, private va
 
     @SuppressLint("CheckResult")
     private fun loadChapters() {
-        isLoading.postValue(true)
+        _isLoading.postValue(true)
         Flowable.merge(
                 dataService.getChapters()
                         .doOnSuccess(cacheProvider::setChapters)
                         .toFlowable(),
                 cacheProvider.getChapters())
-                .doOnNext { isLoading.postValue(false) }
-                .doFinally { isLoading.postValue(false) }
+                .doOnNext { _isLoading.postValue(false) }
+                .doFinally { _isLoading.postValue(false) }
                 .subscribe({
-                    chapters.clear()
-                    chapters.addAll(it)
+                    _chapters.clear()
+                    _chapters.addAll(it)
                     applyFilter()
                 }, Timber::e)
     }
 
     private fun applyFilter() {
-        filteredChapters?.postValue(Stream.of(chapters)
+        _filteredChapters?.postValue(Stream.of(_chapters)
                 .filter { it.name?.contains(filter.value as? CharSequence ?: "", true) ?: false }
                 .sortBy(Function<Chapter, String> { it.name?.toLowerCase()?.trim() })
                 .toList())
     }
 
     fun showChapter(chapter: Chapter) {
-        chapterClick.postValue(chapter)
+        _chapterClick.postValue(chapter)
     }
 
 }
