@@ -22,11 +22,11 @@ class ChaptersActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.app_name)
-        val binding: ActivityChaptersBinding =
+        val binding: ActivityChaptersBinding? =
                 DataBindingUtil.setContentView(this@ChaptersActivity,
                         R.layout.activity_chapters)
-        binding.chapters.layoutManager = LinearLayoutManager(baseContext)
-        binding.chapters.addItemDecoration(
+        binding?.chapters?.layoutManager = LinearLayoutManager(baseContext)
+        binding?.chapters?.addItemDecoration(
                 DividerItemDecoration(baseContext, LinearLayoutManager.VERTICAL))
         with(ViewModelProviders.of(this, ChaptersViewModelFactory())
                 .get(ChaptersViewModel::class.java)) {
@@ -37,10 +37,10 @@ class ChaptersActivity : AppCompatActivity() {
             //Load initial UI state from view model
             bindingModel.filter.set(filter)
             bindingModel.chapters.addAll(filteredChapters?.value ?: emptyList())
-            binding.model = bindingModel
+            binding?.model = bindingModel
             //Map LiveData to DataBinding Observables
             filteredChapters?.observe(this@ChaptersActivity, Observer {
-                //bindingModel.chapters.clear()
+                bindingModel.chapters.clear()
                 bindingModel.chapters.addAll(it ?: emptyList())
             })
             isLoading.observe(this@ChaptersActivity, Observer {

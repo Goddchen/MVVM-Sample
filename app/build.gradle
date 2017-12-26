@@ -44,13 +44,23 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.jakewharton.timber:timber:4.6.0'
-    implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0'
-    implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.2.0'
+    //implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0'
+    //implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.2.0'
+    implementation project(':bindingcollectionadapter')
+    implementation project(':bindingcollectionadapter-recyclerview')
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
     implementation 'com.annimon:stream:1.1.9'
     implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
-    kapt 'com.android.databinding:compiler:3.0.1'
+    kapt 'com.android.databinding:compiler:3.1.0-alpha06'
 }
 repositories {
     mavenCentral()
+}
+
+afterEvaluate {
+    android.applicationVariants.all {
+        def name = it.name.capitalize()
+        tasks["kapt${name}Kotlin"].dependsOn("transformDataBindingWithDataBindingMergeArtifactsFor${name}")
+
+    }
 }

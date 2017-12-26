@@ -23,10 +23,10 @@ class ChapterActivity : AppCompatActivity() {
         val extraChapter = intent.getSerializableExtra(EXTRA_CHAPTER) as Chapter
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = extraChapter.name
-        val binding: ActivityChapterBinding =
+        val binding: ActivityChapterBinding? =
                 DataBindingUtil.setContentView(this, R.layout.activity_chapter)
         val dataBinding = ChapterDataBindingModel()
-        binding.model = dataBinding
+        binding?.model = dataBinding
         with(ViewModelProviders.of(this, ChapterViewModelFactory(baseContext, extraChapter))
                 .get(ChapterViewModel::class.java)) {
             //Map ViewModel LiveData to DataBinding Observables

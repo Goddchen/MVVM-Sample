@@ -1,0 +1,3 @@
+[submodule "binding-collection-adapter"]
+	path = binding-collection-adapter
+	url = https://github.com/evant/binding-collection-adapter.git
