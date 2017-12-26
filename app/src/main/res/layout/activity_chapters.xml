@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.mvvm.view.chapters.ChaptersDataBindingModel" />
+            type="de.goddchen.android.mvvmsample.mvvm.viewmodel.ChaptersViewModel" />
 
 
         <import type="android.view.View" />
@@ -41,7 +41,7 @@
                 android:paddingTop="8dp"
                 app:fastScrollThumbColor="?colorPrimaryDark"
                 app:itemBinding="@{model.itemBinding}"
-                app:items="@{model.chapters}" />
+                app:items="@{model.filteredChapters}" />
         </LinearLayout>
 
         <ProgressBar

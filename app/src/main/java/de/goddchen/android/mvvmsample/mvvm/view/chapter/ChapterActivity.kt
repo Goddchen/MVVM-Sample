@@ -2,7 +2,9 @@ package de.goddchen.android.mvvmsample.mvvm.view.chapter
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -11,6 +13,7 @@ import de.goddchen.android.mvvmsample.databinding.ActivityChapterBinding
 import de.goddchen.android.mvvmsample.mvvm.model.Chapter
 import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChapterViewModel
 import de.goddchen.android.mvvmsample.mvvm.viewmodel.ChapterViewModelFactory
+import java.util.*
 
 class ChapterActivity : AppCompatActivity() {
 
@@ -25,17 +28,17 @@ class ChapterActivity : AppCompatActivity() {
         supportActionBar?.title = extraChapter.name
         val binding: ActivityChapterBinding? =
                 DataBindingUtil.setContentView(this, R.layout.activity_chapter)
-        val dataBinding = ChapterDataBindingModel()
-        binding?.model = dataBinding
-        with(ViewModelProviders.of(this, ChapterViewModelFactory(baseContext, extraChapter))
-                .get(ChapterViewModel::class.java)) {
-            //Map ViewModel LiveData to DataBinding Observables
-            addressText.observe(this@ChapterActivity,
-                    Observer { dataBinding.addressText.set(it) })
-            organizerCountText.observe(this@ChapterActivity,
-                    Observer { dataBinding.organizerCountText.set(it) })
-            dataBinding.chapter = extraChapter
-        }
+        binding?.setLifecycleOwner(this)
+        val viewModel = ViewModelProviders.of(this,
+                ChapterViewModelFactory(baseContext, extraChapter))
+                .get(ChapterViewModel::class.java)
+        binding?.model = viewModel
+        viewModel.addressClick.observe(this, Observer {
+            startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse(String.format(Locale.US, "geo:%.6f,%.6f?q=%.6f,%.6f",
+                            it?.geo?.lat, it?.geo?.lng,
+                            it?.geo?.lat, it?.geo?.lng))))
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

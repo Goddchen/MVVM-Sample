@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="de.goddchen.android.mvvmsample.mvvm.view.chapter.ChapterDataBindingModel" />
+            type="de.goddchen.android.mvvmsample.mvvm.viewmodel.ChapterViewModel" />
     </data>
 
     <LinearLayout
@@ -42,7 +42,7 @@
             android:layout_height="48dp"
             android:background="?selectableItemBackground"
             android:gravity="center"
-            android:onClick="@{() -> model.addressClicked(context)}"
+            android:onClick="@{() -> model.addressClicked()}"
             android:text='@{model.addressText, default="Konstanz, Germany"}'
             android:textAppearance="?android:textAppearanceMedium" />
 
