@@ -1,5 +1,1 @@
 include ':app'
-include ':bindingcollectionadapter'
-project(":bindingcollectionadapter").projectDir = new File("binding-collection-adapter/bindingcollectionadapter")
-include ':bindingcollectionadapter-recyclerview'
-project(":bindingcollectionadapter-recyclerview").projectDir = new File("binding-collection-adapter/bindingcollectionadapter-recyclerview")
